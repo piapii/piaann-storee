@@ -2,10 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
   <title>Donate - Piaann Store</title>
+  <meta name="description" content="Halaman donasi untuk Piaann Store">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@300;400;500&family=Sacramento&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
     :root {
       --bg: #eafafe;
@@ -29,6 +34,7 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       background: var(--bg);
+      height: 100%;
     }
 
     body {
@@ -167,7 +173,9 @@
       z-index: 3;
       opacity: 0;
       transform: translateY(20px) scale(0.98);
+    }
 
+    .title {
       animation: titleEntry 0.8s var(--bounce-ease) 1.2s forwards, 
                  titleGlow 3s infinite alternate 1.2s, 
                  gradientShift 5s ease infinite 1.2s;
@@ -285,7 +293,6 @@
       max-width: 400px;
     }
 
-
     .donate-cards .donate-card:nth-child(1) { animation-delay: 1.6s; }
     .donate-cards .donate-card:nth-child(2) { animation-delay: 1.8s; }
 
@@ -367,7 +374,6 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(8,87,139,0.3);
     }
-
 
     .btn-qris {
       width: 100%;
@@ -709,7 +715,6 @@
       }
     }
 
-
     @media (max-width:780px){
       .page {
         padding: 70px 15px 30px;
@@ -815,17 +820,14 @@
       }
     }
     
-
     * {
       backface-visibility: hidden;
     }
     
-
     .page, .container, .header, .donate-card, .thank-you, .nav-right {
       transform: translateZ(0);
     }
     
-
     .donate-card-image {
       position: relative;
     }
@@ -941,7 +943,6 @@
   </div>
   
   <script>
-  
     window.addEventListener('DOMContentLoaded', function() {
       const takoImage = document.getElementById('takoImage');
       const qrisImage = document.getElementById('qrisImage');
@@ -974,7 +975,6 @@
     const closeSocialModal = document.getElementById('closeSocialModal');
 
     function showModal(modal) {
-     
       hideModal(contactModal);
       hideModal(socialModal);
       
@@ -1028,12 +1028,14 @@
     document.addEventListener('click', function(e) {
       if (contactModal.classList.contains('active') && 
           !contactModal.contains(e.target) && 
-          e.target !== contactBtn) {
+          e.target !== contactBtn &&
+          !contactBtn.contains(e.target)) {
         hideModal(contactModal);
       }
       if (socialModal.classList.contains('active') && 
           !socialModal.contains(e.target) && 
-          e.target !== socialBtn) {
+          e.target !== socialBtn &&
+          !socialBtn.contains(e.target)) {
         hideModal(socialModal);
       }
     });
@@ -1051,7 +1053,6 @@
     const navLinks = document.querySelectorAll('.nav-right a');
     
     navLinks.forEach(link => {
-
       link.addEventListener('mouseenter', function() {
         this.style.transform = 'scale(1.05) translateY(-1px)';
       });
@@ -1059,9 +1060,16 @@
       link.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1) translateY(0)';
       });
-    
+      
       link.addEventListener('click', function(e) {
-   
+        navLinks.forEach(l => {
+          if (l !== this) l.classList.remove('active');
+        });
+        
+        if (this.id !== 'contactBtn' && this.id !== 'socialBtn') {
+          this.classList.add('active');
+        }
+        
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');
         this.appendChild(ripple);

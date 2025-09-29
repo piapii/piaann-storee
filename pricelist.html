@@ -2,10 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
   <title>Price List - Piaann Store</title>
+  <meta name="description" content="Daftar harga layanan Piaann Store">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@300;400;500&family=Sacramento&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
     :root {
       --bg: #eafafe;
@@ -29,8 +34,7 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       background: var(--bg);
-
-      overflow: hidden;
+      height: 100%;
     }
 
     body {
@@ -57,7 +61,6 @@
       to { opacity: 1; }
     }
 
-
     .watermark {
       position: fixed;
       top: 50%;
@@ -76,14 +79,12 @@
       opacity: 0;
       animation: watermarkFade 1.5s var(--ios-ease) 0.3s forwards;
       text-shadow: 0 0 20px rgba(8,87,139,0.1);
-
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-
       will-change: transform, opacity;
     }
 
@@ -168,11 +169,14 @@
       -webkit-background-clip: text;
       background-clip: text;
       text-shadow: 0 2px 10px rgba(8,87,139,0.3);
-      animation: titleGlow 3s infinite alternate 1.2s, gradientShift 5s ease infinite 1.2s, titleEntry 0.8s var(--bounce-ease) 1.2s forwards;
       position: relative;
       z-index: 3;
       opacity: 0;
       transform: translateY(20px) scale(0.98);
+    }
+
+    .title {
+      animation: titleGlow 3s infinite alternate 1.2s, gradientShift 5s ease infinite 1.2s, titleEntry 0.8s var(--bounce-ease) 1.2s forwards;
     }
 
     @keyframes titleEntry {
@@ -256,7 +260,6 @@
       transform: translateY(20px);
       animation: cardEntry 0.6s var(--bounce-ease) forwards;
     }
-
 
     .price-cards .price-card:nth-child(1) { animation-delay: 1.6s; }
     .price-cards .price-card:nth-child(2) { animation-delay: 1.7s; }
@@ -421,7 +424,6 @@
       line-height: 1.7;
     }
 
-
     .nav-right {
       display: flex;
       gap: 22px;
@@ -482,7 +484,6 @@
       color: #fff;
     }
 
-
     .nav-right a::after {
       content: '';
       position: absolute;
@@ -501,7 +502,6 @@
       transform-origin: left;
     }
 
-
     .ripple {
       position: absolute;
       border-radius: 50%;
@@ -516,7 +516,6 @@
         opacity: 0;
       }
     }
-
 
     .slide-modal {
       display: none;
@@ -666,7 +665,6 @@
       background: #181a1b;
     }
 
-
     .site-footer {
       text-align: center;
       font-size: 16px;
@@ -689,7 +687,6 @@
         transform: translateY(0);
       }
     }
-
 
     @media (max-width:780px){
       .page {
@@ -751,7 +748,6 @@
       }
     }
     
-
     @media (max-height: 600px) and (orientation: landscape) {
       .page {
         padding: 60px 15px 20px;
@@ -775,14 +771,12 @@
         right: 30px;
       }
       
-
       .watermark {
         font-size: min(12vw, 140px);
         letter-spacing: 8px;
       }
     }
     
-
     @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
       .price-cards {
         grid-template-columns: repeat(2, 1fr);
@@ -797,12 +791,10 @@
       }
     }
     
-
     * {
       backface-visibility: hidden;
     }
     
-
     .page, .container, .header, .price-card, .notes, .nav-right {
       transform: translateZ(0);
     }
@@ -998,7 +990,6 @@
     </div>
   </div>
   
-  
   <div id="socialModal" class="slide-modal">
     <div class="slide-sheet">
       <h2>Social Media</h2>
@@ -1015,9 +1006,7 @@
   </div>
   
   <script>
-    
     window.addEventListener('DOMContentLoaded', function() {
-      
       setTimeout(() => {
         document.documentElement.style.overflow = 'auto';
         document.body.style.overflow = 'auto';
@@ -1032,7 +1021,9 @@
     const closeSocialModal = document.getElementById('closeSocialModal');
 
     function showModal(modal) {
-
+      hideModal(contactModal);
+      hideModal(socialModal);
+      
       const slideSheet = modal.querySelector('.slide-sheet');
       const links = modal.querySelectorAll('.modal-links a');
       const button = modal.querySelector('.close-modal');
@@ -1065,13 +1056,11 @@
     contactBtn.addEventListener('click', function(e) {
       e.preventDefault();
       showModal(contactModal);
-      hideModal(socialModal);
     });
     
     socialBtn.addEventListener('click', function(e) {
       e.preventDefault();
       showModal(socialModal);
-      hideModal(contactModal);
     });
     
     closeContactModal.addEventListener('click', function() {
@@ -1083,10 +1072,16 @@
     });
     
     document.addEventListener('click', function(e) {
-      if (contactModal.classList.contains('active') && !contactModal.contains(e.target) && e.target !== contactBtn) {
+      if (contactModal.classList.contains('active') && 
+          !contactModal.contains(e.target) && 
+          e.target !== contactBtn &&
+          !contactBtn.contains(e.target)) {
         hideModal(contactModal);
       }
-      if (socialModal.classList.contains('active') && !socialModal.contains(e.target) && e.target !== socialBtn) {
+      if (socialModal.classList.contains('active') && 
+          !socialModal.contains(e.target) && 
+          e.target !== socialBtn &&
+          !socialBtn.contains(e.target)) {
         hideModal(socialModal);
       }
     });
@@ -1104,7 +1099,6 @@
     const navLinks = document.querySelectorAll('.nav-right a');
     
     navLinks.forEach(link => {
- 
       link.addEventListener('mouseenter', function() {
         this.style.transform = 'scale(1.05) translateY(-1px)';
       });
@@ -1113,9 +1107,15 @@
         this.style.transform = 'scale(1) translateY(0)';
       });
       
-    
       link.addEventListener('click', function(e) {
-    
+        navLinks.forEach(l => {
+          if (l !== this) l.classList.remove('active');
+        });
+        
+        if (this.id !== 'contactBtn' && this.id !== 'socialBtn') {
+          this.classList.add('active');
+        }
+        
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');
         this.appendChild(ripple);
